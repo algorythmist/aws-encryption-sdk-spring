@@ -27,7 +27,7 @@ class CustomerServiceTest {
     private HibernateDecryptListener decryptListener;
 
     @Test
-    void save() {
+    void saveEncryptDecrypt() {
         var customer = new Customer();
         customer.setUsername("dauser");
         customer.setSsn("1234".getBytes());
@@ -40,4 +40,5 @@ class CustomerServiceTest {
         Mockito.verify(encryptListener).onPreInsert(Mockito.any(PreInsertEvent.class));
         Mockito.verify(decryptListener).onPostLoad(Mockito.any(PostLoadEvent.class));
     }
+
 }
