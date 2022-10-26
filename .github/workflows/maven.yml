@@ -30,8 +30,8 @@ jobs:
     - name: Build with Maven
       env: # lookup key as an environment variable
         AWS_KEY_ARN: ${{ secrets.AWS_KEY_ARN }}
-        AWS_ACCESS_KEY_ID: ${{AWS_ACCESS_KEY_ID}}
-        AWS_SECRET_ACCESS_KEY_ID: ${{AWS_SECRET_ACCESS_KEY_ID}}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY_ID: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
       run: mvn -B package --file pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
