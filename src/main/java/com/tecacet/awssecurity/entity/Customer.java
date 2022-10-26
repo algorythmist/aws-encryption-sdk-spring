@@ -23,7 +23,7 @@ public class Customer {
     private long id;
 
     @ToString.Include
-    private String name;
+    private String username;
 
     @Column(length = 1000)
     @Encrypted

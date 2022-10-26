@@ -1,2 +1,2 @@
-- prostgre
-s DB on docker-compose
+- cache annotated fields
+- postgres DB on docker-compose
