@@ -2,15 +2,14 @@ package com.tecacet.awssecurity.entity;
 
 import com.tecacet.awssecurity.crypto.Encrypted;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -19,7 +18,8 @@ import javax.persistence.Id;
 @ToString(onlyExplicitlyIncluded = true)
 public class Customer {
 
-    @Id @Generated(GenerationTime.ALWAYS)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @ToString.Include
@@ -28,5 +28,9 @@ public class Customer {
     @Column(length = 1000)
     @Encrypted
     private byte[] ssn;
-    
+
+    @Column(length = 1000)
+    @Encrypted
+    private byte[] phoneNumber;
+
 }
