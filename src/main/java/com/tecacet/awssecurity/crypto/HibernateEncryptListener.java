@@ -61,7 +61,7 @@ public class HibernateEncryptListener implements PreInsertEventListener, PreUpda
         if (index >= 0) {
             currentState[index] = value;
         } else {
-            log.error("Field '" + propertyToSet + "' not found on entity '" + entity.getClass().getName() + "'.");
+            log.error("Field {} not found on entity {}.", propertyToSet, entity.getClass().getName());
         }
     }
 }
