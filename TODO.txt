@@ -1,2 +1,6 @@
+- encrypt multiple fields at once
+- cache wrapper key
+- use encryption context
 - cache annotated fields
+- flyway
 - postgres DB on docker-compose
