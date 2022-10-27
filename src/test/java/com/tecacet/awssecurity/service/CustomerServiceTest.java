@@ -49,7 +49,7 @@ class CustomerServiceTest {
         Mockito.verify(decryptListener).onPostLoad(Mockito.any(PostLoadEvent.class));
     }
 
-    @Test
+    //@Test
     void multipleCustomers() {
         var customers = IntStream.range(0, 100).mapToObj(i -> createCustomer("user" + i, "ssn" + i, "phone" + i)).collect(Collectors.toList());
         customerRepository.saveAll(customers);
