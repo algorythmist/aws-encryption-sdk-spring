@@ -1,7 +1,5 @@
-- encrypt multiple fields at once
+- encrypt multiple fields at once ?
 - use encryption context
 - string instead of byte
 - cache annotated fields
-- flyway
-- postgres DB on docker-compose
 - keyrings?
