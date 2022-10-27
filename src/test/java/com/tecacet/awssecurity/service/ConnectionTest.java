@@ -9,7 +9,7 @@ public class ConnectionTest {
 
     @Test
     void test() throws SQLException {
-        DriverManager.getConnection("jdbc:postgresql://postgres:5432/",
+        DriverManager.getConnection("jdbc:localhost://postgres:5432/",
                 "postgres", "postgres");
     }
 }
