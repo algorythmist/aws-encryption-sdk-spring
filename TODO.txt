@@ -1,5 +1,8 @@
-- encrypt multiple fields at once ?
+- actuator
 - use encryption context
 - string instead of byte
 - cache annotated fields
+- encrypt multiple fields at once ?
 - keyrings?
+- gradle
+- start docker via maven/gradle

@@ -34,7 +34,7 @@ public class HibernateDecryptListener implements PostLoadEventListener {
         //TODO: encrypt all of them together
         for (Field field : fields) {
             byte[] data = beanUtil.getProperty(entity, field.getName());
-            byte[] decrypted = encryptionService.decrypt(data).getResult();
+            byte[] decrypted = encryptionService.decrypt(data);
             beanUtil.setProperty(entity, field.getName(), decrypted);
         }
     }
