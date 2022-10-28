@@ -25,6 +25,8 @@ public class HibernateEncryptListener implements PreInsertEventListener, PreUpda
 
     private final EncryptionService encryptionService;
 
+    private final AnnotatedFieldProvider annotatedFieldProvider;
+
     @Override
     public boolean onPreInsert(PreInsertEvent event) {
         log.info("ENCRYPT on pre-insert");
@@ -47,7 +49,7 @@ public class HibernateEncryptListener implements PreInsertEventListener, PreUpda
     }
 
     private void encrypt(Object entity, Object[] state, String[] propertyNames) {
-        List<Field> fields = EncryptionUtils.getAnnotatedFields(entity.getClass());
+        List<Field> fields = annotatedFieldProvider.getAnnotatedFields(entity.getClass(), Encrypted.class);
         //TODO: encrypt all of them together
         for (Field field : fields) {
             byte[] data = beanUtil.getProperty(entity, field.getName());

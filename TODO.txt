@@ -1,8 +1,6 @@
-- actuator
-- use encryption context
-- string instead of byte
-- cache annotated fields
-- encrypt multiple fields at once ?
-- keyrings?
 - gradle
 - start docker via maven/gradle
+- string instead of byte ?
+- encrypt multiple fields at once ?
+- keyrings?
+- use encryption context ? https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/best-practices.html

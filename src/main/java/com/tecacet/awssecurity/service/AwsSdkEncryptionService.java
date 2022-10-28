@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-//TODO: use encryption context: https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/best-practices.html
 @Service
 public class AwsSdkEncryptionService implements EncryptionService {
 
