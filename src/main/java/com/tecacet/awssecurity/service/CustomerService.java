@@ -1,9 +1,9 @@
 package com.tecacet.awssecurity.service;
 
-import com.tecacet.awssecurity.entity.Customer;
+import com.tecacet.awssecurity.domain.CustomerDto;
 
 public interface CustomerService {
-    Customer getByName(String username);
+    CustomerDto getByName(String username);
 
-    void save(Customer customer);
+    void save(CustomerDto customer);
 }

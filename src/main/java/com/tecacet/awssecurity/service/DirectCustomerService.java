@@ -1,5 +1,6 @@
 package com.tecacet.awssecurity.service;
 
+import com.tecacet.awssecurity.domain.CustomerDto;
 import com.tecacet.awssecurity.entity.Customer;
 import com.tecacet.awssecurity.repository.CustomerRepository;
 
@@ -13,16 +14,19 @@ import javax.persistence.EntityNotFoundException;
 @RequiredArgsConstructor
 public class DirectCustomerService implements CustomerService {
 
+    private final CustomerMapper customerMapper = new CustomerMapper();
     private final CustomerRepository customerRepository;
 
     @Override
-    public Customer getByName(String username) {
-        return customerRepository.findByUsername(username)
+    public CustomerDto getByName(String username) {
+        Customer customer = customerRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("There is no customer with username " + username));
+        return customerMapper.toDto(customer);
     }
 
     @Override
-    public void save(Customer customer) {
-        customerRepository.save(customer);
+    public void save(CustomerDto customer) {
+        customerRepository.save(customerMapper.toEntity(customer));
     }
+
 }

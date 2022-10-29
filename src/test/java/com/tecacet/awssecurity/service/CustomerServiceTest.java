@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.tecacet.awssecurity.crypto.HibernateDecryptListener;
 import com.tecacet.awssecurity.crypto.HibernateEncryptListener;
-import com.tecacet.awssecurity.entity.Customer;
+import com.tecacet.awssecurity.domain.CustomerDto;
 import com.tecacet.awssecurity.repository.CustomerRepository;
 
 import org.hibernate.event.spi.PostLoadEvent;
@@ -22,6 +22,8 @@ import java.util.stream.IntStream;
 
 @SpringBootTest
 class CustomerServiceTest {
+
+    private final CustomerMapper customerMapper = new CustomerMapper();
 
     @Autowired
     private CustomerService customerService;
@@ -42,8 +44,8 @@ class CustomerServiceTest {
 
         var found = customerService.getByName("dauser");
         assertEquals("dauser", found.getUsername());
-        assertEquals("1234", new String(found.getSsn()));
-        assertEquals("999", new String(found.getPhoneNumber()));
+        assertEquals("1234", found.getSsn());
+        assertEquals("999", found.getPhoneNumber());
 
         Mockito.verify(encryptListener).onPreInsert(Mockito.any(PreInsertEvent.class));
         Mockito.verify(decryptListener).onPostLoad(Mockito.any(PostLoadEvent.class));
@@ -51,7 +53,10 @@ class CustomerServiceTest {
 
     @Test
     void multipleCustomers() {
-        var customers = IntStream.range(0, 100).mapToObj(i -> createCustomer("user" + i, "ssn" + i, "phone" + i)).collect(Collectors.toList());
+        var customers = IntStream.range(0, 100)
+                .mapToObj(i -> createCustomer("user" + i, "ssn" + i, "phone" + i))
+                .map(customerMapper::toEntity)
+                .collect(Collectors.toList());
         customerRepository.saveAll(customers);
 
         var found = customerRepository.findAll();
@@ -63,12 +68,12 @@ class CustomerServiceTest {
     }
 
 
-    private Customer createCustomer(String username, String ssn, String phoneNumber) {
-        var customer = new Customer();
-        customer.setUsername(username);
-        customer.setSsn(ssn.getBytes());
-        customer.setPhoneNumber(phoneNumber.getBytes());
-        return customer;
+    private CustomerDto createCustomer(String username, String ssn, String phoneNumber) {
+        return CustomerDto.builder()
+                .username(username)
+                .phoneNumber(phoneNumber)
+                .ssn(ssn)
+                .build();
     }
 
     @BeforeEach
