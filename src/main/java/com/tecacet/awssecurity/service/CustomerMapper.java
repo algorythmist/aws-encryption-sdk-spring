@@ -9,8 +9,8 @@ public class CustomerMapper {
         return CustomerDto.builder()
                 .id(customer.getId())
                 .username(customer.getUsername())
-                .ssn(new String(customer.getSsn()))
-                .phoneNumber(new String(customer.getPhoneNumber()))
+                .ssn(customer.getSsn())
+                .phoneNumber(customer.getPhoneNumber())
                 .build();
     }
 
@@ -18,8 +18,8 @@ public class CustomerMapper {
         Customer customer = new Customer();
         customer.setId(dto.getId());
         customer.setUsername(dto.getUsername());
-        customer.setPhoneNumber(dto.getPhoneNumber().getBytes());
-        customer.setSsn(dto.getSsn().getBytes());
+        customer.setPhoneNumber(dto.getPhoneNumber());
+        customer.setSsn(dto.getSsn());
         return customer;
     }
 }

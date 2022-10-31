@@ -9,9 +9,11 @@ import com.amazonaws.encryptionsdk.caching.LocalCryptoMaterialsCache;
 import com.amazonaws.encryptionsdk.kms.KmsMasterKeyProvider;
 import com.tecacet.awssecurity.EncryptionCacheConfig;
 
+import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -44,5 +46,17 @@ public class AwsSdkEncryptionService implements EncryptionService {
     @Override
     public byte[] decrypt(byte[] data) {
         return crypto.decryptData(cachingManager, data).getResult();
+    }
+
+    @Override
+    public String encrypt(String data) {
+        byte[] encrypted = encrypt(data.getBytes(StandardCharsets.UTF_8));
+        return Base64.toBase64String(encrypted);
+    }
+
+    @Override
+    public String decrypt(String data) {
+        byte[] decrypted = decrypt(Base64.decode(data));
+        return new String(decrypted);
     }
 }

@@ -39,13 +39,15 @@ class CustomerServiceTest {
 
     @Test
     void saveEncryptDecrypt() {
-        var customer = createCustomer("dauser", "1234", "999");
+        String ssn = "123-45-6789";
+        String phoneNumber = "(999) 999-9999";
+        var customer = createCustomer("dauser", ssn, phoneNumber);
         customerService.save(customer);
 
         var found = customerService.getByName("dauser");
         assertEquals("dauser", found.getUsername());
-        assertEquals("1234", found.getSsn());
-        assertEquals("999", found.getPhoneNumber());
+        assertEquals(ssn, found.getSsn());
+        assertEquals(phoneNumber, found.getPhoneNumber());
 
         Mockito.verify(encryptListener).onPreInsert(Mockito.any(PreInsertEvent.class));
         Mockito.verify(decryptListener).onPostLoad(Mockito.any(PostLoadEvent.class));
@@ -62,8 +64,8 @@ class CustomerServiceTest {
         var found = customerRepository.findAll();
         assertEquals(100, found.size());
         IntStream.range(0, 100).forEach(i -> {
-            assertEquals("ssn" + i, new String(found.get(i).getSsn()));
-            assertEquals("phone" + i, new String(found.get(i).getPhoneNumber()));
+            assertEquals("ssn" + i, found.get(i).getSsn());
+            assertEquals("phone" + i, found.get(i).getPhoneNumber());
         });
     }
 
