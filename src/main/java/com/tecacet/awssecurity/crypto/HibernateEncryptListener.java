@@ -50,10 +50,9 @@ public class HibernateEncryptListener implements PreInsertEventListener, PreUpda
 
     private void encrypt(Object entity, Object[] state, String[] propertyNames) {
         List<Field> fields = annotatedFieldProvider.getAnnotatedFields(entity.getClass(), Encrypted.class);
-        //TODO: encrypt all of them together
         for (Field field : fields) {
-            String data = beanUtil.getProperty(entity, field.getName());
-            String encrypted = encryptionService.encrypt(data);
+            byte[] data = beanUtil.getProperty(entity, field.getName());
+            byte[] encrypted = encryptionService.encrypt(data);
             setValue(state, propertyNames, field.getName(), encrypted, entity);
         }
     }

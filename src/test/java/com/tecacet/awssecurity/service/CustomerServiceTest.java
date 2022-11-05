@@ -64,8 +64,8 @@ class CustomerServiceTest {
         var found = customerRepository.findAll();
         assertEquals(100, found.size());
         IntStream.range(0, 100).forEach(i -> {
-            assertEquals("ssn" + i, found.get(i).getSsn());
-            assertEquals("phone" + i, found.get(i).getPhoneNumber());
+            assertEquals("ssn" + i, new String(found.get(i).getSsn()));
+            assertEquals("phone" + i, new String(found.get(i).getPhoneNumber()));
         });
     }
 

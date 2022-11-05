@@ -29,9 +29,9 @@ public class Customer {
     private String username;
 
     @Encrypted
-    private String ssn;
+    private byte[] ssn;
 
     @Encrypted
-    private String phoneNumber;
+    private byte[] phoneNumber;
 
 }
