@@ -7,10 +7,9 @@ import com.amazonaws.encryptionsdk.caching.CachingCryptoMaterialsManager;
 import com.amazonaws.encryptionsdk.caching.CryptoMaterialsCache;
 import com.amazonaws.encryptionsdk.caching.LocalCryptoMaterialsCache;
 import com.amazonaws.encryptionsdk.kms.KmsMasterKeyProvider;
-import com.tecacet.awssecurity.EncryptionCacheConfig;
+import com.tecacet.awssecurity.EncryptionConfig;
 
 import org.bouncycastle.util.encoders.Base64;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -23,18 +22,18 @@ public class AwsSdkEncryptionService implements EncryptionService {
 
     private final CryptoMaterialsManager cachingManager;
 
-    public AwsSdkEncryptionService(@Value("${aws.key.arn}") String keyArn, EncryptionCacheConfig cacheConfig) {
+    public AwsSdkEncryptionService(EncryptionConfig config) {
         crypto = AwsCrypto.builder()
                 .withCommitmentPolicy(CommitmentPolicy.RequireEncryptRequireDecrypt)
                 .build();
-        var keyProvider = KmsMasterKeyProvider.builder().buildStrict(keyArn);
+        var keyProvider = KmsMasterKeyProvider.builder().buildStrict(config.keyArn);
 
-        CryptoMaterialsCache cache = new LocalCryptoMaterialsCache(cacheConfig.cacheCapacity);
+        CryptoMaterialsCache cache = new LocalCryptoMaterialsCache(config.cacheCapacity);
         cachingManager =
                 CachingCryptoMaterialsManager.newBuilder().withMasterKeyProvider(keyProvider)
                         .withCache(cache)
-                        .withMaxAge(cacheConfig.maxEntryAge, TimeUnit.SECONDS)
-                        .withMessageUseLimit(cacheConfig.maxEntryMessages)
+                        .withMaxAge(config.maxEntryAge, TimeUnit.SECONDS)
+                        .withMessageUseLimit(config.maxEntryMessages)
                         .build();
     }
 

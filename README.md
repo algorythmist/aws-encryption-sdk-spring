@@ -7,3 +7,29 @@ KMS Concepts: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.htm
 AWS Encryption SDK: https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/introduction.html
 
 ---
+# Start docker
+
+- install docker
+- from the project directory
+```text
+docker compose up
+```
+
+# Setup aws local
+
+- Install python >= 3.9
+- pip install awscli
+- pip install  awscli-local
+- pip install localstack
+
+To create a secret key:
+
+```text
+awslocal kms create-key
+```
+
+To find keys
+
+```text
+awslocal kms list-keys
+```
