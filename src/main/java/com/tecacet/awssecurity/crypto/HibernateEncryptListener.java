@@ -3,6 +3,7 @@ package com.tecacet.awssecurity.crypto;
 import com.tecacet.awssecurity.service.EncryptionService;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.hibernate.event.spi.AbstractPreDatabaseOperationEvent;
 import org.hibernate.event.spi.PreInsertEvent;
 import org.hibernate.event.spi.PreInsertEventListener;
 import org.hibernate.event.spi.PreUpdateEvent;
@@ -29,32 +30,28 @@ public class HibernateEncryptListener implements PreInsertEventListener, PreUpda
 
     @Override
     public boolean onPreInsert(PreInsertEvent event) {
-        log.info("ENCRYPT on pre-insert");
+        log.debug("ENCRYPT on pre-insert");
         Object[] state = event.getState();
-        String[] propertyNames = event.getPersister().getEntityMetamodel().getPropertyNames();
-        Object entity = event.getEntity();
-        encrypt(entity, state, propertyNames);
-        return false;
+        return encrypt(event, state);
     }
 
     @Override
     public boolean onPreUpdate(PreUpdateEvent event) {
-        log.info("ENCRYPT on pre-update");
-        //TODO: combine common code
-        Object entity = event.getEntity();
+        log.debug("ENCRYPT on pre-update");
         Object[] state = event.getState();
-        String[] propertyNames = event.getPersister().getEntityMetamodel().getPropertyNames();
-        encrypt(entity, state, propertyNames);
-        return false;
+        return encrypt(event, state);
     }
 
-    private void encrypt(Object entity, Object[] state, String[] propertyNames) {
+    private boolean encrypt(AbstractPreDatabaseOperationEvent event, Object[] state) {
+        Object entity = event.getEntity();
+        String[] propertyNames = event.getPersister().getEntityMetamodel().getPropertyNames();
         List<Field> fields = annotatedFieldProvider.getAnnotatedFields(entity.getClass(), Encrypted.class);
         for (Field field : fields) {
             byte[] data = beanUtil.getProperty(entity, field.getName());
             byte[] encrypted = encryptionService.encrypt(data);
             setValue(state, propertyNames, field.getName(), encrypted, entity);
         }
+        return false;
     }
 
     void setValue(Object[] currentState, String[] propertyNames, String propertyToSet, Object value, Object entity) {
