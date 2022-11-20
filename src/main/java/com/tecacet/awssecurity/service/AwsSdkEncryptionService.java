@@ -16,7 +16,6 @@ public class AwsSdkEncryptionService implements EncryptionService {
 
     private final CryptoMaterialsManager cryptoMaterialsManager;
 
-
     public AwsSdkEncryptionService(CryptoMaterialsManager cryptoMaterialsManager) {
         crypto = AwsCrypto.builder()
                 .withCommitmentPolicy(CommitmentPolicy.RequireEncryptRequireDecrypt)

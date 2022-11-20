@@ -41,11 +41,12 @@ class CustomerServiceTest {
     void saveEncryptDecrypt() {
         String ssn = "123-45-6789";
         String phoneNumber = "(999) 999-9999";
-        var customer = createCustomer("dauser", ssn, phoneNumber);
+        String username = "a_user";
+        var customer = createCustomer(username, ssn, phoneNumber);
         customerService.save(customer);
 
-        var found = customerService.getByName("dauser");
-        assertEquals("dauser", found.getUsername());
+        var found = customerService.getByName(username);
+        assertEquals(username, found.getUsername());
         assertEquals(ssn, found.getSsn());
         assertEquals(phoneNumber, found.getPhoneNumber());
 
