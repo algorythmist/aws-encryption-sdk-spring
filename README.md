@@ -6,6 +6,8 @@ KMS Concepts: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.htm
 
 AWS Encryption SDK: https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/introduction.html
 
+KMS localstack: https://docs.localstack.cloud/aws/kms/
+
 ---
 # Start docker
 
