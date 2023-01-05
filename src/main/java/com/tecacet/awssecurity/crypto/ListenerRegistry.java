@@ -23,6 +23,7 @@ public class ListenerRegistry {
         SessionFactoryImpl sessionFactory = entityManagerFactory.unwrap(SessionFactoryImpl.class);
         EventListenerRegistry registry = sessionFactory.getServiceRegistry().getService(EventListenerRegistry.class);
         registry.getEventListenerGroup(EventType.PRE_INSERT).appendListener(encryptListener);
+        registry.getEventListenerGroup(EventType.PRE_UPDATE).appendListener(encryptListener);
         registry.getEventListenerGroup(EventType.POST_LOAD).appendListener(decryptListener);
     }
 }
